@@ -129,6 +129,19 @@ spec:
           persistentVolumeClaim:
             claimName: postgres-pvc
 ---
+kind: Service
+apiVersion: v1
+metadata:
+  name: django-service
+  namespace: calvarado2004
+spec:
+  selector:
+    app: django-container
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
