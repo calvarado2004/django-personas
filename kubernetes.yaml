@@ -134,8 +134,8 @@ apiVersion: v1
 metadata:
   name: django-service
   namespace: calvarado2004
-annotations:
-  dev.okteto.com/auto-ingress: "true"
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
 spec:
   selector:
     app: django-container
