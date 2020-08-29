@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django
+  namespace: django-personas-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-container
+  template:
+    metadata:
+      labels:
+        app: django-container
+    spec:
+      containers:
+        - name: django
+          image: calvarado2004/django-personas:1.0.0 
+          ports:
+            - containerPort: 8000
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: user
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+
+            - name: POSTGRES_HOST
+              value: postgres-service
+
+          volumeMounts:
+            - name: postgres-volume-mount
+              mountPath: /var/lib/busybox
+
+      volumes:
+        - name: postgres-volume-mount
+          persistentVolumeClaim:
+            claimName: postgres-pvc
