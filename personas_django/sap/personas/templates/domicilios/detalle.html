@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		{% load static %}
+		<title>Django sample app - by calvarado04</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="{%url 'index'%}" class="logo">Django sample app</a>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul class="links">
+							<li class="active"><a href="{%url 'domicilios'%}">Domicilios</a></li>
+							<li><a href="{%url 'index'%}">Personas</a></li>
+						</ul>
+						<ul class="icons">
+							<li><a href="https://github.com/calvarado2004" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<h2>Detalle<br /></h2>
+								</header>
+                                
+								<!-- Text stuff -->
+									<h3>Detalle del Domicilio</h3>
+										<p><strong>ID Domicilio:</strong> {{domicilio.id}}</p>
+                						<p><strong>Calle:</strong> {{domicilio.calle}}</p>
+                						<p><strong>Número:</strong> {{domicilio.no_calle}}</p>
+                						<p><strong>País:</strong> {{domicilio.pais}}</p>
+
+							</section>
+							<ul class="actions">
+								<li><a href="{%url 'domicilios'%}" class="button primary">Volver</a></li>
+							</ul>
+
+
+					</div>
+
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Calvarado04.com</li><li>Author: Carlos Alvarado Martínez. Year: 2020</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrolly.min.js' %}"></script>
+			<script src="{% static 'assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>
