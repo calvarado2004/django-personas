@@ -18,10 +18,8 @@ apiVersion: v1
 metadata:
   name: postgres-pvc
   namespace: calvarado2004
-  labels:
-    type: local
 spec:
-  storageClassName: manual
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
