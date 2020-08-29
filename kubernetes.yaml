@@ -101,7 +101,7 @@ spec:
     spec:
       containers:
         - name: django
-          image: calvarado2004/django-personas:1.0.0 
+          image: calvarado2004/django-personas:1.0.1
           ports:
             - containerPort: 8000
           env:
@@ -154,7 +154,7 @@ spec:
     spec:
       containers:
         - name: django
-          image: calvarado2004/django-personas:1.0.0
+          image: calvarado2004/django-personas:1.0.1
           command: ['python', 'manage.py', 'migrate']
           env:
             - name: POSTGRES_USER
