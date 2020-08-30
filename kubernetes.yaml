@@ -123,7 +123,25 @@ spec:
           volumeMounts:
             - name: postgres-volume-mount
               mountPath: /var/lib/busybox
+      initContainers:
+        - name: django-init
+          image: calvarado2004/django-personas:1.0.2
+          command: ['python', 'manage.py', 'migrate']
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: user
 
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+
+            - name: POSTGRES_HOST
+              value: postgres-service
       volumes:
         - name: postgres-volume-mount
           persistentVolumeClaim:
@@ -143,34 +161,4 @@ spec:
     - protocol: TCP
       port: 8000
       targetPort: 8000
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: django-migrations
-  namespace: calvarado2004
-spec:
-  template:
-    spec:
-      containers:
-        - name: django
-          image: calvarado2004/django-personas:1.0.2
-          command: ['python', 'manage.py', 'migrate']
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-credentials
-                  key: user
-
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-credentials
-                  key: password
-
-            - name: POSTGRES_HOST
-              value: postgres-service
-      restartPolicy: Never
-  backoffLimit: 5
 
