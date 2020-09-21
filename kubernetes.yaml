@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: postgres-pvc
+  name: personas-django-pvc
   namespace: calvarado2004
 spec:
   storageClassName: standard
@@ -15,7 +15,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: postgres-credentials
+  name: personas-django-credentials
   namespace: calvarado2004
 type: Opaque
 data:
@@ -25,33 +25,33 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres-deployment
+  name: personas-django-db-deployment
   namespace: calvarado2004
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres-container
+      app: personas-django-db-container
   template:
     metadata:
       labels:
-        app: postgres-container
+        app: personas-django-db-container
         tier: backend
     spec:
       containers:
-        - name: postgres-container
+        - name: personas-django-db-container
           image: postgres:12.4
           env:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
+                  name: personas-django-credentials
                   key: user
 
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
+                  name: personas-django-credentials
                   key: password
 
             - name: POSTGRES_DB
@@ -69,16 +69,16 @@ spec:
       volumes:
         - name: postgres-volume-mount
           persistentVolumeClaim:
-            claimName: postgres-pvc
+            claimName: personas-django-pvc
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: postgres-service
+  name: personas-django-db-service
   namespace: calvarado2004
 spec:
   selector:
-    app: postgres-container
+    app: personas-django-db-container
   ports:
     - protocol: TCP
       port: 5432
@@ -87,17 +87,17 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: django
+  name: personas-django-deployment
   namespace: calvarado2004
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: django-container
+      app: personas-django-container
   template:
     metadata:
       labels:
-        app: django-container
+        app: personas-django-container
     spec:
       containers:
         - name: django
@@ -108,21 +108,18 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
+                  name: personas-django-credentials
                   key: user
 
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
+                  name: personas-django-credentials
                   key: password
 
             - name: POSTGRES_HOST
-              value: postgres-service
+              value: personas-django-db-service
 
-          volumeMounts:
-            - name: postgres-volume-mount
-              mountPath: /var/lib/busybox
       initContainers:
         - name: django-init
           image: calvarado2004/django-personas:1.0.2
@@ -131,32 +128,28 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
+                  name: personas-django-credentials
                   key: user
 
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
+                  name: personas-django-credentials
                   key: password
 
             - name: POSTGRES_HOST
-              value: postgres-service
-      volumes:
-        - name: postgres-volume-mount
-          persistentVolumeClaim:
-            claimName: postgres-pvc
+              value: personas-django-db-service
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: django-service
+  name: personas-django-service
   namespace: calvarado2004
   annotations:
     dev.okteto.com/auto-ingress: "true"
 spec:
   selector:
-    app: django-container
+    app: personas-django-container
   ports:
     - protocol: TCP
       port: 8000
