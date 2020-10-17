@@ -44,6 +44,11 @@ _OLD_VIRTUAL_PATH="$PATH"
 PATH="$VIRTUAL_ENV/bin:$PATH"
 export PATH
 
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_HOST=127.0.0.1
+POSTGRES_PORT=5432
+
 # unset PYTHONHOME if set
 # this will fail if PYTHONHOME is set to the empty string (which is bad anyway)
 # could use `if (set -u; : $PYTHONHOME) ;` in bash
