@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 //Author: Carlos Alvarado
-//Jenkins Pipeline to handle the Continuous Integration and Continuous Deployment in Okteto.
+//Jenkins Pipeline to handle the Continuous Integration and Continuous Deployment on Okteto.
 //As prerequisites, you should install the Custom tools plugin on Jenkins... 
 //...get the okteto CLI and Kubectl and you need to get your Okteto Token as well, and save it on a Jenkins Credential
 
